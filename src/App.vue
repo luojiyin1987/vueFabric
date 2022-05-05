@@ -25,10 +25,9 @@ export default {
     };
   },
   methods: {
-    
     initCanvas() {
-      this.canvas = new fabric.Canvas("c"),
-      this.canvas.setWidth(this.width / 2);
+      (this.canvas = new fabric.Canvas("c")),
+        this.canvas.setWidth(this.width / 2);
       this.canvas.setHeight(this.height / 2);
       this.canvas.backgroundColor = "#fff";
       this.canvas.renderAll();
@@ -38,21 +37,30 @@ export default {
 
     uploadImage() {
       document.getElementById("fileUpload").click();
-     console.log("upload this cavas 1", this.canvas );
-      const tempCanvas = this.canvas; 
+      console.log("upload this cavas 1", this.canvas);
+      const tempCanvas = this.canvas;
       document
         .getElementById("fileUpload")
         .addEventListener("change", function (e) {
           var file = e.target.files[0];
           console.log("upload file", file);
-          console.log("upload this cavas 2", tempCanvas );
+          console.log("upload this cavas 2", tempCanvas);
+          console.log("upload this cavas 2", tempCanvas.width);
+          console.log("file width", e.width);
           var reader = new FileReader();
           reader.onload = function (f) {
             var data = f.target.result;
+           
+            
+
             fabric.Image.fromURL(data, function (img) {
-              var oImg = img.set({ left: 50, top: 100, angle: 0 }).scale(0.9);
+              console.log(" fabric img", img.width);
+              const scale = tempCanvas.width / img.width /2;
+              var oImg = img.set({ angle: 0 }).scale(scale);
               tempCanvas.add(oImg).renderAll();
               tempCanvas.canvas.setActiveObject(oImg);
+
+               
             });
           };
           reader.readAsDataURL(file);
