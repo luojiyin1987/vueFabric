@@ -25,8 +25,9 @@ export default {
     };
   },
   methods: {
+    
     initCanvas() {
-      this.canvas = new fabric.Canvas("c");
+      this.canvas = new fabric.Canvas("c"),
       this.canvas.setWidth(this.width / 2);
       this.canvas.setHeight(this.height / 2);
       this.canvas.backgroundColor = "#fff";
@@ -37,23 +38,25 @@ export default {
 
     uploadImage() {
       document.getElementById("fileUpload").click();
-      const file = document.getElementById("fileUpload").files[0];
-
-      var pugImg = new Image();
-      pugImg.onload = function () {
-        var pug = new fabric.Image(pugImg, {
-          angle: 45,
-          width: 500,
-          height: 500,
-          left: 50,
-          top: 70,
-          scaleX: 0.25,
-          scaleY: 0.25,
+     console.log("upload this cavas 1", this.canvas );
+      const tempCanvas = this.canvas; 
+      document
+        .getElementById("fileUpload")
+        .addEventListener("change", function (e) {
+          var file = e.target.files[0];
+          console.log("upload file", file);
+          console.log("upload this cavas 2", tempCanvas );
+          var reader = new FileReader();
+          reader.onload = function (f) {
+            var data = f.target.result;
+            fabric.Image.fromURL(data, function (img) {
+              var oImg = img.set({ left: 50, top: 100, angle: 0 }).scale(0.9);
+              tempCanvas.add(oImg).renderAll();
+              tempCanvas.canvas.setActiveObject(oImg);
+            });
+          };
+          reader.readAsDataURL(file);
         });
-        this.canvas.add(pug);
-      };
-
-      pugImg.src = URL.createObjectURL(file);
     },
   },
   mounted() {
