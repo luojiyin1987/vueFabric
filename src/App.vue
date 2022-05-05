@@ -37,36 +37,39 @@ export default {
 
     uploadImage() {
       document.getElementById("fileUpload").click();
-      //mounted inti fileUpload change event
+      //mounted run initUpload  function
     },
 
     delImage() {
       this.canvas.remove(this.canvas.getActiveObject());
       //this.canvas.renderAll();
     },
+
+    initUpload() {
+      const tempCanvas = this.canvas;
+      document
+        .getElementById("fileUpload")
+        .addEventListener("change", function (e) {
+          const file = e.target.files[0];
+
+          const reader = new FileReader();
+          reader.onload = function (f) {
+            const data = f.target.result;
+
+            fabric.Image.fromURL(data, function (img) {
+              const scale = tempCanvas.width / img.width / 2;
+              var oImg = img.set({ angle: 0 }).scale(scale);
+              tempCanvas.add(oImg).renderAll();
+              tempCanvas.canvas.setActiveObject(oImg);
+            });
+          };
+          reader.readAsDataURL(file);
+        });
+    },
   },
   mounted() {
     this.initCanvas();
-
-    const tempCanvas = this.canvas;
-    document
-      .getElementById("fileUpload")
-      .addEventListener("change", function (e) {
-        const file = e.target.files[0];
-
-        const reader = new FileReader();
-        reader.onload = function (f) {
-          const data = f.target.result;
-
-          fabric.Image.fromURL(data, function (img) {
-            const scale = tempCanvas.width / img.width / 2;
-            var oImg = img.set({ angle: 0 }).scale(scale);
-            tempCanvas.add(oImg).renderAll();
-            tempCanvas.canvas.setActiveObject(oImg);
-          });
-        };
-        reader.readAsDataURL(file);
-      });
+    this.initUpload();
   },
 };
 </script>
