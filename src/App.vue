@@ -6,7 +6,7 @@
     <div id="ctrlButton">
       <input id="fileUpload" type="file" hidden />
       <button id="addImage" @click="uploadImage()">Add Image</button>&nbsp;
-      <button id="delImage">Delete Image</button>
+      <button id="delImage" @click="delImage()">Delete Image</button>
     </div>
   </div>
 </template>
@@ -50,21 +50,22 @@ export default {
           var reader = new FileReader();
           reader.onload = function (f) {
             var data = f.target.result;
-           
-            
 
             fabric.Image.fromURL(data, function (img) {
               console.log(" fabric img", img.width);
-              const scale = tempCanvas.width / img.width /2;
+              const scale = tempCanvas.width / img.width / 2;
               var oImg = img.set({ angle: 0 }).scale(scale);
               tempCanvas.add(oImg).renderAll();
               tempCanvas.canvas.setActiveObject(oImg);
-
-               
             });
           };
           reader.readAsDataURL(file);
         });
+    },
+
+    delImage() {
+      this.canvas.remove(this.canvas.getActiveObject());
+      //this.canvas.renderAll();
     },
   },
   mounted() {
