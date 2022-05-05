@@ -38,8 +38,23 @@ export default {
     uploadImage() {
       document.getElementById("fileUpload").click();
       console.log("upload this cavas 1", this.canvas);
-      const tempCanvas = this.canvas;
-      document
+      
+       
+     
+
+      
+    },
+
+    delImage() {
+      this.canvas.remove(this.canvas.getActiveObject());
+      //this.canvas.renderAll();
+    },
+  },
+  mounted() {
+    this.initCanvas();
+
+    const tempCanvas = this.canvas;
+    document
         .getElementById("fileUpload")
         .addEventListener("change", function (e) {
           var file = e.target.files[0];
@@ -61,15 +76,6 @@ export default {
           };
           reader.readAsDataURL(file);
         });
-    },
-
-    delImage() {
-      this.canvas.remove(this.canvas.getActiveObject());
-      //this.canvas.renderAll();
-    },
-  },
-  mounted() {
-    this.initCanvas();
   },
 };
 </script>
