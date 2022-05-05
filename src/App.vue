@@ -37,12 +37,7 @@ export default {
 
     uploadImage() {
       document.getElementById("fileUpload").click();
-      console.log("upload this cavas 1", this.canvas);
-      
-       
-     
-
-      
+      //mounted inti fileUpload change event
     },
 
     delImage() {
@@ -55,27 +50,23 @@ export default {
 
     const tempCanvas = this.canvas;
     document
-        .getElementById("fileUpload")
-        .addEventListener("change", function (e) {
-          var file = e.target.files[0];
-          console.log("upload file", file);
-          console.log("upload this cavas 2", tempCanvas);
-          console.log("upload this cavas 2", tempCanvas.width);
-          console.log("file width", e.width);
-          var reader = new FileReader();
-          reader.onload = function (f) {
-            var data = f.target.result;
+      .getElementById("fileUpload")
+      .addEventListener("change", function (e) {
+        const file = e.target.files[0];
 
-            fabric.Image.fromURL(data, function (img) {
-              console.log(" fabric img", img.width);
-              const scale = tempCanvas.width / img.width / 2;
-              var oImg = img.set({ angle: 0 }).scale(scale);
-              tempCanvas.add(oImg).renderAll();
-              tempCanvas.canvas.setActiveObject(oImg);
-            });
-          };
-          reader.readAsDataURL(file);
-        });
+        const reader = new FileReader();
+        reader.onload = function (f) {
+          const data = f.target.result;
+
+          fabric.Image.fromURL(data, function (img) {
+            const scale = tempCanvas.width / img.width / 2;
+            var oImg = img.set({ angle: 0 }).scale(scale);
+            tempCanvas.add(oImg).renderAll();
+            tempCanvas.canvas.setActiveObject(oImg);
+          });
+        };
+        reader.readAsDataURL(file);
+      });
   },
 };
 </script>
