@@ -15,57 +15,28 @@ export default {
   components: {
     
   },
+  data(){
+    return {
+      width : window.innerWidth,
+      height : window.innerHeight,
+    }
+  },
   methods: {
+    
     initCanvas() {
-      this.canvas = new fabric.Canvas('label-canvas');
+      this.canvas = new fabric.Canvas('c');
       this.canvas.setWidth(this.width/2);
       this.canvas.setHeight(this.height/2);
       this.canvas.backgroundColor = '#fff';
       this.canvas.renderAll();
+      console.log("this width",this.width);
+    console.log("this height",this.height);
     },
-    addText() {
-      this.canvas.add(new fabric.Text('Hello World', {
-        left: 100,
-        top: 100,
-        fontSize: 40,
-        fill: '#333'
-      }));
-      this.canvas.renderAll();
+  },
+  mounted() {
+      this.initCanvas();
+    
     },
-    addImage() {
-      fabric.Image.fromURL('./assets/logo.png', (img) => {
-        img.set({
-          left: 100,
-          top: 100,
-          angle: 0,
-          padding: 10,
-          cornersize: 10
-        });
-        img.scale(0.5);
-        this.canvas.add(img);
-        this.canvas.renderAll();
-      });
-    },
-    addRect() {
-      this.canvas.add(new fabric.Rect({
-        left: 100,
-        top: 100,
-        fill: '#333',
-        width: 100,
-        height: 100
-      }));
-      this.canvas.renderAll();
-    },
-    addCircle() {
-      this.canvas.add(new fabric.Circle({
-        left: 100,
-        top: 100,
-        fill: '#333',
-        radius: 50
-      }));
-      this.canvas.renderAll();
-    },
-  }
     
 
 }
